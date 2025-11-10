@@ -104,7 +104,7 @@ const Index = () => {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-card/50 border border-primary/30 mb-8">
+          <TabsList className="grid w-full grid-cols-5 bg-card/50 border border-primary/30 mb-8">
             <TabsTrigger value="tournaments" className="data-[state=active]:bg-primary/20">
               <Icon name="Swords" className="mr-2" size={18} />
               Турниры
@@ -120,6 +120,10 @@ const Index = () => {
             <TabsTrigger value="registration" className="data-[state=active]:bg-primary/20">
               <Icon name="UserPlus" className="mr-2" size={18} />
               Регистрация
+            </TabsTrigger>
+            <TabsTrigger value="report" className="data-[state=active]:bg-primary/20">
+              <Icon name="Flag" className="mr-2" size={18} />
+              Жалобы
             </TabsTrigger>
           </TabsList>
 
@@ -250,6 +254,114 @@ const Index = () => {
                     </div>
                   ))}
                 </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Report Tab */}
+          <TabsContent value="report" className="animate-fade-in">
+            <Card className="bg-card/80 border-primary/30 neon-border max-w-2xl mx-auto">
+              <CardHeader>
+                <CardTitle className="text-3xl flex items-center gap-3">
+                  <Icon name="Flag" size={32} className="text-destructive" />
+                  Подать жалобу
+                </CardTitle>
+                <CardDescription>Сообщите о нарушении правил турнира</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="reporter-nickname">Ваш игровой ник</Label>
+                    <Input 
+                      id="reporter-nickname" 
+                      placeholder="Введите ваш ник"
+                      className="bg-muted/50 border-primary/30 focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="violator-nickname">Ник нарушителя</Label>
+                    <Input 
+                      id="violator-nickname" 
+                      placeholder="Ник игрока, нарушившего правила"
+                      className="bg-muted/50 border-primary/30 focus:border-primary"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="tournament-id">ID турнира</Label>
+                    <Input 
+                      id="tournament-id" 
+                      placeholder="Например: #1234"
+                      className="bg-muted/50 border-primary/30 focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="violation-type">Тип нарушения</Label>
+                    <select 
+                      id="violation-type"
+                      className="w-full px-3 py-2 bg-muted/50 border border-primary/30 rounded-md focus:border-primary focus:outline-none"
+                    >
+                      <option value="">Выберите тип нарушения</option>
+                      <option value="cheating">Использование читов</option>
+                      <option value="toxicity">Токсичное поведение</option>
+                      <option value="teamkilling">Убийство союзников</option>
+                      <option value="afk">AFK / Саботаж</option>
+                      <option value="matchfixing">Договорные матчи</option>
+                      <option value="rules">Другое нарушение правил</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="proof">Ссылка на доказательства</Label>
+                    <Input 
+                      id="proof" 
+                      type="url"
+                      placeholder="Ссылка на скриншот/видео (YouTube, Imgur и т.д.)"
+                      className="bg-muted/50 border-primary/30 focus:border-primary"
+                    />
+                    <p className="text-xs text-muted-foreground">Рекомендуется прикладывать видео или скриншоты</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="description">Описание инцидента</Label>
+                    <textarea 
+                      id="description"
+                      rows={6}
+                      placeholder="Подробно опишите ситуацию: что произошло, когда, какие были последствия..."
+                      className="w-full px-3 py-2 bg-muted/50 border border-primary/30 rounded-md focus:border-primary focus:outline-none resize-none"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="contact">Контакт для связи (Discord/Email)</Label>
+                    <Input 
+                      id="contact" 
+                      placeholder="username#1234 или email@example.com"
+                      className="bg-muted/50 border-primary/30 focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
+                    <div className="flex gap-3">
+                      <Icon name="AlertTriangle" size={20} className="text-destructive mt-0.5" />
+                      <div className="text-sm text-muted-foreground">
+                        <p className="font-semibold text-destructive mb-1">Важно:</p>
+                        <ul className="list-disc list-inside space-y-1">
+                          <li>Ложные жалобы влекут санкции</li>
+                          <li>Рассмотрение может занять до 48 часов</li>
+                          <li>Решение администрации окончательное</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button type="submit" className="w-full bg-destructive hover:bg-destructive/80 text-lg py-6">
+                    <Icon name="Send" className="mr-2" size={20} />
+                    Отправить жалобу
+                  </Button>
+                </form>
               </CardContent>
             </Card>
           </TabsContent>
