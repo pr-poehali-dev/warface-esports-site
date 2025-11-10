@@ -104,7 +104,7 @@ const Index = () => {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 bg-card/50 border border-primary/30 mb-8">
+          <TabsList className="grid w-full grid-cols-6 bg-card/50 border border-primary/30 mb-8">
             <TabsTrigger value="tournaments" className="data-[state=active]:bg-primary/20">
               <Icon name="Swords" className="mr-2" size={18} />
               Турниры
@@ -120,6 +120,10 @@ const Index = () => {
             <TabsTrigger value="registration" className="data-[state=active]:bg-primary/20">
               <Icon name="UserPlus" className="mr-2" size={18} />
               Регистрация
+            </TabsTrigger>
+            <TabsTrigger value="dispute" className="data-[state=active]:bg-primary/20">
+              <Icon name="Scale" className="mr-2" size={18} />
+              Споры
             </TabsTrigger>
             <TabsTrigger value="report" className="data-[state=active]:bg-primary/20">
               <Icon name="Flag" className="mr-2" size={18} />
@@ -254,6 +258,146 @@ const Index = () => {
                     </div>
                   ))}
                 </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Dispute Tab */}
+          <TabsContent value="dispute" className="animate-fade-in">
+            <Card className="bg-card/80 border-primary/30 neon-border max-w-2xl mx-auto">
+              <CardHeader>
+                <CardTitle className="text-3xl flex items-center gap-3">
+                  <Icon name="Scale" size={32} className="text-accent" />
+                  Оспорить результат матча
+                </CardTitle>
+                <CardDescription>Подайте апелляцию, если считаете результат несправедливым</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="dispute-tournament">Название турнира</Label>
+                    <Input 
+                      id="dispute-tournament" 
+                      placeholder="Например: Dark Blade 5x5 Championship #15"
+                      className="bg-muted/50 border-primary/30 focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="team1">Ваша команда</Label>
+                      <Input 
+                        id="team1" 
+                        placeholder="Название вашей команды"
+                        className="bg-muted/50 border-primary/30 focus:border-primary"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="team2">Команда соперника</Label>
+                      <Input 
+                        id="team2" 
+                        placeholder="Название команды противника"
+                        className="bg-muted/50 border-primary/30 focus:border-primary"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="match-date">Дата матча</Label>
+                      <Input 
+                        id="match-date" 
+                        type="date"
+                        className="bg-muted/50 border-primary/30 focus:border-primary"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="match-time">Время матча</Label>
+                      <Input 
+                        id="match-time" 
+                        type="time"
+                        className="bg-muted/50 border-primary/30 focus:border-primary"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="dispute-reason">Причина оспаривания</Label>
+                    <select 
+                      id="dispute-reason"
+                      className="w-full px-3 py-2 bg-muted/50 border border-primary/30 rounded-md focus:border-primary focus:outline-none"
+                    >
+                      <option value="">Выберите причину</option>
+                      <option value="wrong-score">Неверно засчитан счёт</option>
+                      <option value="technical">Технические проблемы</option>
+                      <option value="opponent-cheat">Соперник использовал читы</option>
+                      <option value="disconnect">Отключение от сервера</option>
+                      <option value="rules">Нарушение правил соперником</option>
+                      <option value="other">Другая причина</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="dispute-description">Подробное описание</Label>
+                    <textarea 
+                      id="dispute-description"
+                      rows={6}
+                      placeholder="Опишите подробно ситуацию: что произошло, почему вы считаете результат несправедливым, какие у вас есть доказательства..."
+                      className="w-full px-3 py-2 bg-muted/50 border border-primary/30 rounded-md focus:border-primary focus:outline-none resize-none"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="dispute-proof">Доказательства (фото/видео)</Label>
+                    <div className="border-2 border-dashed border-primary/30 rounded-lg p-6 text-center hover:border-primary/60 transition-colors cursor-pointer bg-muted/20">
+                      <Icon name="Upload" size={32} className="mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground mb-2">Нажмите для загрузки или перетащите файлы</p>
+                      <p className="text-xs text-muted-foreground">Поддерживаются: JPG, PNG, MP4 (макс. 50 МБ)</p>
+                      <input 
+                        type="file" 
+                        id="dispute-proof"
+                        accept="image/*,video/*"
+                        multiple
+                        className="hidden"
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">Или введите ссылку на внешнее хранилище:</p>
+                    <Input 
+                      type="url"
+                      placeholder="https://imgur.com/... или https://youtube.com/..."
+                      className="bg-muted/50 border-primary/30 focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="contact-discord">Discord для связи</Label>
+                    <Input 
+                      id="contact-discord" 
+                      placeholder="username#1234"
+                      className="bg-muted/50 border-primary/30 focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="bg-accent/10 border border-accent/30 rounded-lg p-4">
+                    <div className="flex gap-3">
+                      <Icon name="Info" size={20} className="text-accent mt-0.5" />
+                      <div className="text-sm text-muted-foreground">
+                        <p className="font-semibold text-accent mb-1">Информация:</p>
+                        <ul className="list-disc list-inside space-y-1">
+                          <li>Апелляция рассматривается в течение 24 часов</li>
+                          <li>Администрация может запросить дополнительные доказательства</li>
+                          <li>Решение принимается на основе предоставленных материалов</li>
+                          <li>Вы получите уведомление о решении в Discord</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button type="submit" className="w-full bg-accent hover:bg-accent/80 text-lg py-6">
+                    <Icon name="Send" className="mr-2" size={20} />
+                    Отправить апелляцию
+                  </Button>
+                </form>
               </CardContent>
             </Card>
           </TabsContent>
